@@ -1,0 +1,45 @@
+swagger: '2.0'
+info:
+  $ref: './info/index.yaml'
+# servers:
+# - url: http://localhost:{port}{basePath}
+#   description: localhost server
+#   variables:
+#     port:
+#       enum:
+#         - '9080'
+#         - '80'
+#       default: '8080'
+#     basePath:
+#       default: ''
+host: localhost:8080
+basePath: /ribmob
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json; charset=UTF-8
+
+#securityDefinitions:
+#  oauth2:
+#    type: TBD
+#    flow: TBD
+#    authorizationUrl: TBD
+#    tokenUrl: TBD
+#    scopes:
+#      write: do modifications
+#      read: read information
+    
+tags:
+  - name: security
+    description: security endpoints
+  - name: catalog
+    description: |
+      Beer catalog endpoints
+    
+definitions:
+  $ref: './definitions/index.yaml'
+
+paths:
+  $ref: './paths/index.yaml'

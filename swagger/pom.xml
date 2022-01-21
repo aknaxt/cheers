@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.lupulus</groupId>
+	<artifactId>cheers-swagger</artifactId>
+	<packaging>pom</packaging>
+	<name>Cheeers - API definition</name>
+	<description>Cheers - API definition</description>
+	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<yaml.path>${basedir}/index.yaml</yaml.path>
+		<combined.yaml.path>${basedir}/index-combined.yaml</combined.yaml.path>
+		<generated-sources.path>${project.build.directory}/generated-sources</generated-sources.path>		
+		<arq.version>2.5.0-SNAPSHOT</arq.version>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>arq.maven</groupId>
+				<artifactId>swagger-generator-maven-plugin</artifactId>
+				<version>${arq.version}</version>
+				<executions>
+					<execution>
+						<id>generate-combined-yaml</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>combine-yamls</goal>
+						</goals>
+						<configuration>
+							<specFile>${yaml.path}</specFile>
+							<outputFile>${combined.yaml.path}</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-html-doc</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<apiPackage>com.lupulus.cheers</apiPackage>
+							<language>html</language>
+							<inputSpec>${combined.yaml.path}</inputSpec>
+							<output>${generated-sources.path}/html</output>
+						</configuration>
+					</execution>					
+					<execution>
+						<id>generate-spring</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<apiPackage>com.lupulus.cheers.api</apiPackage>
+							<modelPackage>com.lupulus.cheers.dto</modelPackage>
+							<language>spring</language>
+							<inputSpec>${combined.yaml.path}</inputSpec>
+							<output>${generated-sources.path}/spring</output>
+							<modelNameSuffix></modelNameSuffix>
+							<configOptions>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<serializableModel>true</serializableModel>
+								<java8>true</java8>
+								<dateLibrary>java8</dateLibrary>
+								<import-mappings>
+
+								</import-mappings>
+							</configOptions>
+						</configuration>
+					</execution>
+<!-- 					<execution> -->
+<!-- 						<id>generate-angular</id> -->
+<!-- 						<phase>generate-resources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>generate</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<apiPackage>com.lupulus.cheers</apiPackage> -->
+<!-- 							<language>typescript-angular</language> -->
+<!-- 							<inputSpec>${combined.yaml.path}</inputSpec> -->
+<!-- 							<output>${generated-sources.path}/typescript-angular</output> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

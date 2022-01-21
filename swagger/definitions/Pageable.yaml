@@ -1,0 +1,39 @@
+type: object
+description: Pagination pageable
+properties:
+  sort: 
+    type: object
+    description: sort 
+    $ref: '#/definitions/Sort'
+  pageSize:
+    type: integer
+    format: int32
+    description: the number of items to be returned.
+  pageNumber:
+    type: integer
+    format: int32
+    description: the page to be returned.
+  offset:
+    type: integer
+    format: int32
+    description: the offset to be taken according to the underlying page and page size.
+  paged:
+    type: boolean
+    description: whether it is paged 
+  unpaged:
+    type: boolean
+    description: whether it is unpaged 
+      
+example:
+  {
+    "sort": {
+        "sorted": false,
+        "empty": true,
+        "unsorted": true
+    },
+    "pageSize": 1,
+    "pageNumber": 0,
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  }

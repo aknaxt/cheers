@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "json-schema-ref-parser": "^6.0.2",
+    "live-server": ">=1.2.0"
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "ext": ".",
+    "ignore": [
+      "index.json",
+      "yarn.lock",
+      "*.sh",
+      "node_modules/*"
+    ]
+  }
+}

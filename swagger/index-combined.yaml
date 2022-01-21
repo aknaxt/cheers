@@ -1,0 +1,281 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Cheers beer catalog API specification
+  description: |
+  
+      The API specification for Cheers beer server.
+  
+      Set of functionalities covered.
+  
+      TAGS         | Brief Description
+      ------------ | -----------------------------
+      security     | security endpoints
+      catalog       | beer catalog endpoints
+  
+     
+  
+      
+  
+      <details>
+        <summary> __Change List__ </summary>
+        
+        |Version | date       | area        | description |
+        |--------|------------|-------------|----------------------------------------------------------------------- |
+        |1.0.0   | 2022/01/22 | ALL         | initial beer catalog definition  |
+        
+     
+    
+      </details>
+  
+  
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Cheers
+    email: gaizkabilbao@hotmail.com
+    url: x
+host: localhost:8080
+basePath: /ribmob
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json; charset=UTF-8
+
+    
+tags:
+  - name: security
+    description: security endpoints
+  - name: catalog
+    description: |
+      Beer catalog endpoints
+    
+definitions:
+  
+  Pageable:
+    type: object
+    description: Pagination pageable
+    properties:
+      sort: 
+        type: object
+        description: sort 
+        $ref: '#/definitions/Sort'
+      pageSize:
+        type: integer
+        format: int32
+        description: the number of items to be returned.
+      pageNumber:
+        type: integer
+        format: int32
+        description: the page to be returned.
+      offset:
+        type: integer
+        format: int32
+        description: the offset to be taken according to the underlying page and page size.
+      paged:
+        type: boolean
+        description: whether it is paged 
+      unpaged:
+        type: boolean
+        description: whether it is unpaged 
+          
+    example:
+      {
+        "sort": {
+            "sorted": false,
+            "empty": true,
+            "unsorted": true
+        },
+        "pageSize": 1,
+        "pageNumber": 0,
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+      }
+    
+  Sort:
+    type: object
+    description: beers paginated response
+    properties:
+      sorted:
+        type: boolean
+        description: whether it is sorted 
+      empty:
+        type: boolean
+        description: whether it is empty 
+      unsorted:
+        type: boolean
+        description: whether it is empty 
+    example:
+      {
+        "sorted": false,
+        "empty": true,
+        "unsorted": true
+      }
+    
+    
+  BeersPaginatedResponse:
+    type: object
+    description: beers paginated response
+    properties:
+      content: 
+        type: array
+        items:
+          $ref: '#/definitions/Beer'
+      pageable:
+        type: object
+        description: the Pageable that's been used to request the current Slice. 
+        $ref: '#/definitions/Pageable'
+      totalPages:
+        type: integer
+        format: int32
+        description: the number of total pages.
+      totalElements:
+        type: integer
+        format: int32
+        description: the total amount of elements.
+      last:
+        type: boolean
+        description: whether the current Slice is the last one.
+      number:
+        type: integer
+        format: int32
+        description: the number of the current Slice.
+      size:
+        type: integer
+        format: int32
+        description: the size of the Slice.
+      numberOfElements:
+        type: integer
+        format: int32
+        description: the number of elements currently on this Slice.
+      sort:
+        type: object
+        description:  the sorting parameters for the Slice. 
+        $ref: '#/definitions/Sort'
+      first:
+        type: boolean
+        description: whether the current Slice is the first one.
+      empty: 
+        type: boolean
+        description: whether the current Slice is the last one.
+    example:
+      {
+          "content": [{
+                  "id": 1,
+                  "name": "Heineken",
+                  "graduation": 5.5,
+                  "manufacturer": "Heineken",
+                  "type": "Lager",
+                  "description": "description Heineken"
+              }, {
+                  "id": 2,
+                  "name": "Estrella",
+                  "graduation": 4.7,
+                  "manufacturer": "Damm",
+                  "type": "Lager",
+                  "description": "description Estrella"
+              }
+          ],
+          "pageable": {
+              "sort": {
+                  "sorted": false,
+                  "empty": true,
+                  "unsorted": true
+              },
+              "pageSize": 2,
+              "pageNumber": 0,
+              "offset": 0,
+              "paged": true,
+              "unpaged": false
+          },
+          "totalPages": 1,
+          "totalElements": 2,
+          "last": true,
+          "number": 0,
+          "size": 2,
+          "numberOfElements": 2,
+          "sort": {
+              "sorted": false,
+              "empty": true,
+              "unsorted": true
+          },
+          "first": true,
+          "empty": false
+      }
+  
+  Beer:
+    type: object
+    description: Beer data
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: identifier
+      name:
+        type: string
+        description: beer name
+      graduation:
+        type: number
+        format: double
+        description: graduation
+      type:
+        type: string
+        description: type
+      description:
+        type: string
+        description: description
+    
+    example:
+      {
+          "id": 1,
+          "name": "Heineken",
+          "graduation": 5.5,
+          "manufacturer": "Heineken",
+          "type": "Lager",
+          "description": "description Heineken"
+      }
+
+paths:
+  /public/v1/catalogue/beers:
+    get:
+      operationId: getBeers
+      summary: gets beers paginated
+      description: |
+        Returns catalog beers paginated
+      tags:
+        - catalog
+      parameters:
+        - name: page
+          in: query
+          description: page to obtain (start with 0)
+          type: integer
+          format: int32
+          required: true
+          minimum: 0
+          default: 0
+        - name: size
+          in: query
+          description: max elements on page (start with 1)
+          type: integer
+          format: int32
+          required: true
+          minimum: 0
+          default: 10
+        - name: sort
+          in: query
+          type: string
+          required: false
+          description: sorting column and direction
+          default: id      
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/BeersPaginatedResponse'
+        default:
+          description: error
+          schema:
+            type: string
+                

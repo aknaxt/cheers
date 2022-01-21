@@ -1,0 +1,30 @@
+type: object
+description: Beer data
+properties:
+  id:
+    type: integer
+    format: int32
+    description: identifier
+  name:
+    type: string
+    description: beer name
+  graduation:
+    type: number
+    format: double
+    description: graduation
+  type:
+    type: string
+    description: type
+  description:
+    type: string
+    description: description
+
+example:
+  {
+      "id": 1,
+      "name": "Heineken",
+      "graduation": 5.5,
+      "manufacturer": "Heineken",
+      "type": "Lager",
+      "description": "description Heineken"
+  }

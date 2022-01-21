@@ -1,0 +1,3 @@
+# SECURITY
+/public/v1/catalogue/beers:
+  $ref: './getBeers.yaml'

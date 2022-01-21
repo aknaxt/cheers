@@ -1,0 +1,18 @@
+type: object
+description: beers paginated response
+properties:
+  sorted:
+    type: boolean
+    description: whether it is sorted 
+  empty:
+    type: boolean
+    description: whether it is empty 
+  unsorted:
+    type: boolean
+    description: whether it is empty 
+example:
+  {
+    "sorted": false,
+    "empty": true,
+    "unsorted": true
+  }

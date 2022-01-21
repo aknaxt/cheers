@@ -1,0 +1,88 @@
+type: object
+description: beers paginated response
+properties:
+  content: 
+    type: array
+    items:
+      $ref: '#/definitions/Beer'
+  pageable:
+    type: object
+    description: the Pageable that's been used to request the current Slice. 
+    $ref: '#/definitions/Pageable'
+  totalPages:
+    type: integer
+    format: int32
+    description: the number of total pages.
+  totalElements:
+    type: integer
+    format: int32
+    description: the total amount of elements.
+  last:
+    type: boolean
+    description: whether the current Slice is the last one.
+  number:
+    type: integer
+    format: int32
+    description: the number of the current Slice.
+  size:
+    type: integer
+    format: int32
+    description: the size of the Slice.
+  numberOfElements:
+    type: integer
+    format: int32
+    description: the number of elements currently on this Slice.
+  sort:
+    type: object
+    description:  the sorting parameters for the Slice. 
+    $ref: '#/definitions/Sort'
+  first:
+    type: boolean
+    description: whether the current Slice is the first one.
+  empty: 
+    type: boolean
+    description: whether the current Slice is the last one.
+example:
+  {
+      "content": [{
+              "id": 1,
+              "name": "Heineken",
+              "graduation": 5.5,
+              "manufacturer": "Heineken",
+              "type": "Lager",
+              "description": "description Heineken"
+          }, {
+              "id": 2,
+              "name": "Estrella",
+              "graduation": 4.7,
+              "manufacturer": "Damm",
+              "type": "Lager",
+              "description": "description Estrella"
+          }
+      ],
+      "pageable": {
+          "sort": {
+              "sorted": false,
+              "empty": true,
+              "unsorted": true
+          },
+          "pageSize": 2,
+          "pageNumber": 0,
+          "offset": 0,
+          "paged": true,
+          "unpaged": false
+      },
+      "totalPages": 1,
+      "totalElements": 2,
+      "last": true,
+      "number": 0,
+      "size": 2,
+      "numberOfElements": 2,
+      "sort": {
+          "sorted": false,
+          "empty": true,
+          "unsorted": true
+      },
+      "first": true,
+      "empty": false
+  }

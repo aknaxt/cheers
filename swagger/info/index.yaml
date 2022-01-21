@@ -1,0 +1,41 @@
+version: 1.0.0
+title: Cheers beer catalog API specification
+description: |
+    # **Introduction**
+
+    The API specification for Cheers beer server.
+
+    Set of functionalities covered.
+
+    TAGS         | Brief Description
+    ------------ | -----------------------------
+    security     | security endpoints
+    catalog       | beer catalog endpoints
+
+   
+
+    # **Useful information**
+    #[Useful information](info/code.html)
+    
+
+    ## __Change List__
+    <details>
+      <summary> __Change List__ </summary>
+      
+      |Version | date       | area        | description |
+      |--------|------------|-------------|----------------------------------------------------------------------- |
+      |1.0.0   | 2022/01/22 | ALL         | initial beer catalog definition  |
+      
+   
+  
+    </details>
+
+
+termsOfService: http://swagger.io/terms/
+contact:
+  name: Cheers
+  email: gaizkabilbao@hotmail.com
+  url: x
+#license:
+#  name: Commercial
+#  url: -

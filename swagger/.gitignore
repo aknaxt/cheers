@@ -1,0 +1,6 @@
+/.project
+/.settings/
+/target/
+/src/main/resources/node_modules/
+!/src/main/resources/node_modules/json-schema-ref-parser/lib/ref.js
+yarn.lock

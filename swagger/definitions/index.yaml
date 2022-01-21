@@ -1,0 +1,15 @@
+
+# Pagination  
+Pageable:
+  $ref: './Pageable.yaml' 
+  
+Sort:
+  $ref: './Sort.yaml' 
+  
+# End Pagination 
+  
+BeersPaginatedResponse:
+  $ref: './BeersPaginatedResponse.yaml'  
+
+Beer:
+  $ref: './Beer.yaml' 
