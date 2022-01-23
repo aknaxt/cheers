@@ -67,9 +67,8 @@
 								<serializableModel>true</serializableModel>
 								<java8>true</java8>
 								<dateLibrary>java8</dateLibrary>
-								<import-mappings>
-
-								</import-mappings>
+<!-- 								<import-mappings> -->
+<!-- 								</import-mappings> -->
 							</configOptions>
 						</configuration>
 					</execution>

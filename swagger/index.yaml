@@ -35,8 +35,7 @@ tags:
   - name: security
     description: security endpoints
   - name: catalog
-    description: |
-      Beer catalog endpoints
+    description: Beer catalog endpoints
     
 definitions:
   $ref: './definitions/index.yaml'

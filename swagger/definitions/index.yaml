@@ -12,4 +12,16 @@ BeersPaginatedResponse:
   $ref: './BeersPaginatedResponse.yaml'  
 
 Beer:
-  $ref: './Beer.yaml' 
+  $ref: './Beer.yaml'
+  
+AddBeerRequest:
+  $ref: './AddBeerRequest.yaml' 
+
+ManufacturersPaginatedResponse:
+  $ref: './ManufacturersPaginatedResponse.yaml' 
+  
+Manufacturer:
+  $ref: './Manufacturer.yaml' 
+  
+AddManufacturerRequest:
+  $ref: './AddManufacturerRequest.yaml' 

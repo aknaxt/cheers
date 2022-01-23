@@ -1,36 +1,74 @@
 package com.lupulus.cheers.repository.implementation;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 
 import com.lupulus.cheers.domain.Beer;
+import com.lupulus.cheers.domain.Manufacturer;
 import com.lupulus.cheers.repository.CatalogRepository;
+import com.lupulus.cheers.web.controller.request.AddBeerRequest;
+import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Component
-@Slf4j
 public class CatalogRepositoryImpl implements CatalogRepository {
 
+	@Override
 	public Page<Beer> getBeers(Pageable pageable) {
-
-		List<Beer> list = new ArrayList<Beer>();
-		
-		list.add(new Beer(1,"Heineken",5.5,"Heineken","Lager", "description Heineken"));
-		list.add(new Beer(2,"Estrella",4.7,"Damm","Lager","description Estrella"));
-		list.add(new Beer(3,"Guiness",8.9,"Guiness Co.","Stout","description Guiness"));
-		list.add(new Beer(4,"Paulaner",6.1,"Paulaner Co","Witbier","description Paulaner"));
-
-		PagedListHolder<Beer> pageHolder = new PagedListHolder<Beer>(list);
-		pageHolder.setPage(pageable.getPageNumber());
-		pageHolder.setPageSize(pageable.getPageSize());
-		Page<Beer> result = new PageImpl<>(pageHolder.getPageList(),pageable,pageHolder.getPageList().size());
-		return result;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public Beer getBeer(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Beer addBeer(AddBeerRequest beer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Beer updateBeer(Beer beer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteBeer(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Page<Manufacturer> getManufacturers(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Manufacturer getManufacturer(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Manufacturer addManufacturer(AddManufacturerRequest manufacturer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Manufacturer updateManufacturer(Manufacturer manufacturer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteManufacturer(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

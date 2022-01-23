@@ -1,0 +1,25 @@
+get:
+  operationId: getManufacturer
+  summary: get specific manufacturer
+  description: |
+    Returns manufacturer
+  tags:
+    - catalog
+  parameters:
+    - name: id
+      in: path
+      description: id of the manufacturer to get
+      type: integer
+      format: int32
+      required: true
+      minimum: 0  
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/Manufacturer'
+    default:
+      description: error
+      schema:
+        type: string
+            

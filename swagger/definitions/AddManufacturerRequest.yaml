@@ -1,0 +1,9 @@
+type: object
+description: Add manufacturer data
+properties:
+  name:
+    type: string
+    description: Manufacturer name
+  country:
+    type: string
+    description: country

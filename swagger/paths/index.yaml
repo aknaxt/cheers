@@ -1,3 +1,24 @@
 # SECURITY
+
+
+# CATALOG
+# BEER
 /public/v1/catalogue/beers:
   $ref: './getBeers.yaml'
+  
+/public/v1/catalogue/beer/{id}:
+  $ref: './getBeer.yaml'
+    
+/public/v1/catalogue/beer:
+  $ref: './modifyBeer.yaml'
+
+# MANUFACTURERS
+/public/v1/catalogue/manufacturers:
+  $ref: './getManufacturers.yaml'
+  
+/public/v1/catalogue/manufacturer/{id}:
+  $ref: './getManufacturer.yaml'
+  
+/public/v1/catalogue/manufacturer:
+  $ref: './modifyManufacturer.yaml'   
+ 

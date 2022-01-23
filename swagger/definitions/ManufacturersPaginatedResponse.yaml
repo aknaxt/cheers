@@ -1,0 +1,46 @@
+type: object
+description: Manufacturers paginated response
+properties:
+  content: 
+    type: array
+    items:
+      $ref: '#/definitions/Manufacturer'
+  pageable:
+    type: object
+    description: the Pageable that's been used to request the current Slice. 
+    $ref: '#/definitions/Pageable'
+  totalPages:
+    type: integer
+    format: int32
+    description: the number of total pages.
+  totalElements:
+    type: integer
+    format: int32
+    description: the total amount of elements.
+  last:
+    type: boolean
+    description: whether the current Slice is the last one.
+  number:
+    type: integer
+    format: int32
+    description: the number of the current Slice.
+  size:
+    type: integer
+    format: int32
+    description: the size of the Slice.
+  numberOfElements:
+    type: integer
+    format: int32
+    description: the number of elements currently on this Slice.
+  sort:
+    type: object
+    description:  the sorting parameters for the Slice. 
+    $ref: '#/definitions/Sort'
+  first:
+    type: boolean
+    description: whether the current Slice is the first one.
+  empty: 
+    type: boolean
+    description: whether the current Slice is the last one.
+
+#TODO: add example

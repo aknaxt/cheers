@@ -16,6 +16,8 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+        <database-scripts.location>${project.basedir}/target/classes/db</database-scripts.location>
+<!-- 		<flywaydb.version>5.2.4</flywaydb.version> -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,21 +27,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		
+		</dependency>		
 		<dependency>
         	<groupId>org.springframework.data</groupId>
         	<artifactId>spring-data-commons</artifactId>
         	<version>2.5.7</version>
       	</dependency>
-<!-- 		<dependency> -->
-<!--         	<groupId>org.springframework.data</groupId> -->
-<!--         	<artifactId>spring-data-bom</artifactId> -->
-<!--         	<version>${spring-data-bom.version}</version> -->
-<!--         	<type>pom</type> -->
-<!--         	<scope>import</scope> -->
-<!--       	</dependency> -->
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -54,12 +47,43 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency> 
+		    <groupId>org.springframework.boot</groupId> 
+		    <artifactId>spring-boot-starter-validation</artifactId> 
+		</dependency>        
+        
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.flywaydb.flyway-test-extensions</groupId> -->
+<!-- 			<artifactId>flyway-spring-test</artifactId> -->
+<!-- 			<version>${flywaydb.version}</version> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+<!-- 		<dependency> -->
+<!--             <groupId>javax.validation</groupId> -->
+<!--             <artifactId>validation-api</artifactId> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!-- 		    <groupId>org.hibernate.validator</groupId> -->
+<!-- 		    <artifactId>hibernate-validator</artifactId> -->
+<!-- 		    <version>6.0.22.Final</version> -->
+<!-- 		</dependency> -->
 	</dependencies>
 
 	<build>
@@ -79,4 +103,46 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>local-h2</id>
+			<activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.coderplus.maven.plugins</groupId>
+						<artifactId>copy-rename-maven-plugin</artifactId>
+						<version>1.0.1</version>
+						<executions>
+							<execution>
+								<id>copy</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<configuration>
+									<fileSets>
+										<fileSet>
+											<sourceFile>${project.basedir}/src/main/resources/db/h2/flyway.location</sourceFile>
+											<destinationFile>${database-scripts.location}/migration/flyway.location</destinationFile>
+										</fileSet>
+										<fileSet>
+											<sourceFile>${project.basedir}/src/main/resources/db/h2/schema.sql</sourceFile>
+											<destinationFile>${database-scripts.location}/migration/V1.0__core_security_schema.sql</destinationFile>
+										</fileSet>
+										<fileSet>
+											<sourceFile>${project.basedir}/src/main/resources/db/h2/data.sql</sourceFile>
+											<destinationFile>${database-scripts.location}/migration/V1.1__data.sql</destinationFile>
+										</fileSet>
+									</fileSets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

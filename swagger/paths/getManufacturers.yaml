@@ -1,0 +1,40 @@
+get:
+  operationId: getManufacturers
+  summary: gets manufacturers paginated
+  description: |
+    Returns beer manufacturers paginated
+  tags:
+    - catalog
+  parameters:
+    - name: page
+      in: query
+      description: page to obtain (start with 0)
+      type: integer
+      format: int32
+      required: true
+      minimum: 0
+      default: 0
+    - name: size
+      in: query
+      description: max elements on page (start with 1)
+      type: integer
+      format: int32
+      required: true
+      minimum: 0
+      default: 10
+    - name: sort
+      in: query
+      type: string
+      required: false
+      description: sorting column and direction
+      default: id      
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/ManufacturersPaginatedResponse'
+    default:
+      description: error
+      schema:
+        type: string
+            

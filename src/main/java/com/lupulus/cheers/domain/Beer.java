@@ -1,5 +1,9 @@
 package com.lupulus.cheers.domain;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Beer {
 
+	@Min(0)
 	private int id;
+	@NotEmpty
 	private String name;
-	private double graduation;
-	private String manufacturer;
+	@Min(0)
+	private float graduation;
 	private String type;
 	private String description;
+	@NotNull
+	private Manufacturer manufacturer;
 }

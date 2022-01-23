@@ -1,0 +1,70 @@
+post:
+  operationId: addBeer
+  summary: add specific beer
+  description: |
+    Add a beer to the catalog
+  tags:
+    - catalog
+  parameters:
+    - in: body
+      name: beer
+      description: beer object
+      required: true
+      schema:
+        $ref: '#/definitions/AddBeerRequest'  
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/Beer'
+    default:
+      description: error
+      schema:
+        type: string
+        
+                
+put:
+  operationId: updateBeer
+  summary: update specific beer
+  description: |
+    Update a beer in the catalog
+  tags:
+    - catalog
+  parameters:
+    - in: body
+      name: beer
+      description: beer object
+      required: true
+      schema:
+        $ref: '#/definitions/Beer'  
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/Beer'
+    default:
+      description: error
+      schema:
+        type: string
+
+delete:
+  operationId: deleteBeer
+  summary: delete specific beer
+  description: |
+    Delete a beer in the catalog
+  tags:
+    - catalog
+  parameters:
+    - in: query
+      name: id
+      description: beer id to delete
+      type: integer
+      format: int32
+      required: true 
+  responses:
+    200:
+      description: OK
+    default:
+      description: error
+      schema:
+        type: string           

@@ -1,0 +1,25 @@
+get:
+  operationId: getBeer
+  summary: get specific beer
+  description: |
+    Returns catalog specific beer
+  tags:
+    - catalog
+  parameters:
+    - name: id
+      in: path
+      description: id of the beer to get
+      type: integer
+      format: int32
+      required: true
+      minimum: 0  
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/Beer'
+    default:
+      description: error
+      schema:
+        type: string
+            

@@ -33,7 +33,6 @@ info:
   contact:
     name: Cheers
     email: gaizkabilbao@hotmail.com
-    url: x
 host: localhost:8080
 basePath: /ribmob
 schemes:
@@ -48,8 +47,7 @@ tags:
   - name: security
     description: security endpoints
   - name: catalog
-    description: |
-      Beer catalog endpoints
+    description: Beer catalog endpoints
     
 definitions:
   
@@ -222,22 +220,138 @@ definitions:
         description: graduation
       type:
         type: string
-        description: type
+        description: type of beer
       description:
         type: string
-        description: description
-    
+        description: beer description
+      manufacturer: 
+        type: object
+        $ref: '#/definitions/Manufacturer'
+          
     example:
       {
           "id": 1,
           "name": "Heineken",
           "graduation": 5.5,
-          "manufacturer": "Heineken",
           "type": "Lager",
-          "description": "description Heineken"
+          "description": "description Heineken",
+          "manufacturer": {
+            "id": 1,
+            "name": "Heineken Co",
+            "country": "Netherlands",
+          }
       }
+    
+  AddBeerRequest:
+    type: object
+    description: Add Beer data
+    properties:
+      name:
+        type: string
+        description: beer name
+      graduation:
+        type: number
+        format: double
+        description: graduation
+      type:
+        type: string
+        description: type of beer
+      description:
+        type: string
+        description: beer description
+      manufacturer: 
+        type: object
+        $ref: '#/definitions/Manufacturer'
+          
+    example:
+      {
+          "name": "Heineken",
+          "graduation": 5.5,
+          "type": "Lager",
+          "description": "description Heineken",
+          "manufacturer": {
+            "id": 1,
+            "name": "Heineken Co",
+            "country": "Netherlands",
+          }
+      }
+  
+  ManufacturersPaginatedResponse:
+    type: object
+    description: Manufacturers paginated response
+    properties:
+      content: 
+        type: array
+        items:
+          $ref: '#/definitions/Manufacturer'
+      pageable:
+        type: object
+        description: the Pageable that's been used to request the current Slice. 
+        $ref: '#/definitions/Pageable'
+      totalPages:
+        type: integer
+        format: int32
+        description: the number of total pages.
+      totalElements:
+        type: integer
+        format: int32
+        description: the total amount of elements.
+      last:
+        type: boolean
+        description: whether the current Slice is the last one.
+      number:
+        type: integer
+        format: int32
+        description: the number of the current Slice.
+      size:
+        type: integer
+        format: int32
+        description: the size of the Slice.
+      numberOfElements:
+        type: integer
+        format: int32
+        description: the number of elements currently on this Slice.
+      sort:
+        type: object
+        description:  the sorting parameters for the Slice. 
+        $ref: '#/definitions/Sort'
+      first:
+        type: boolean
+        description: whether the current Slice is the first one.
+      empty: 
+        type: boolean
+        description: whether the current Slice is the last one.
+    
+    
+  Manufacturer:
+    type: object
+    description: Manufacturer data
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: identifier
+      name:
+        type: string
+        description: Manufacturer name
+      country:
+        type: string
+        description: country
+    
+  AddManufacturerRequest:
+    type: object
+    description: Add manufacturer data
+    properties:
+      name:
+        type: string
+        description: Manufacturer name
+      country:
+        type: string
+        description: country
 
 paths:
+  
+  
   /public/v1/catalogue/beers:
     get:
       operationId: getBeers
@@ -279,3 +393,244 @@ paths:
           schema:
             type: string
                 
+    
+  /public/v1/catalogue/beer/{id}:
+    get:
+      operationId: getBeer
+      summary: get specific beer
+      description: |
+        Returns catalog specific beer
+      tags:
+        - catalog
+      parameters:
+        - name: id
+          in: path
+          description: id of the beer to get
+          type: integer
+          format: int32
+          required: true
+          minimum: 0  
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Beer'
+        default:
+          description: error
+          schema:
+            type: string
+                
+      
+  /public/v1/catalogue/beer:
+    post:
+      operationId: addBeer
+      summary: add specific beer
+      description: |
+        Add a beer to the catalog
+      tags:
+        - catalog
+      parameters:
+        - in: body
+          name: beer
+          description: beer object
+          required: true
+          schema:
+            $ref: '#/definitions/AddBeerRequest'  
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Beer'
+        default:
+          description: error
+          schema:
+            type: string
+            
+                    
+    put:
+      operationId: updateBeer
+      summary: update specific beer
+      description: |
+        Update a beer in the catalog
+      tags:
+        - catalog
+      parameters:
+        - in: body
+          name: beer
+          description: beer object
+          required: true
+          schema:
+            $ref: '#/definitions/Beer'  
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Beer'
+        default:
+          description: error
+          schema:
+            type: string
+    
+    delete:
+      operationId: deleteBeer
+      summary: delete specific beer
+      description: |
+        Delete a beer in the catalog
+      tags:
+        - catalog
+      parameters:
+        - in: query
+          name: id
+          description: beer id to delete
+          type: integer
+          format: int32
+          required: true 
+      responses:
+        200:
+          description: OK
+        default:
+          description: error
+          schema:
+            type: string           
+  
+  /public/v1/catalogue/manufacturers:
+    get:
+      operationId: getManufacturers
+      summary: gets manufacturers paginated
+      description: |
+        Returns beer manufacturers paginated
+      tags:
+        - catalog
+      parameters:
+        - name: page
+          in: query
+          description: page to obtain (start with 0)
+          type: integer
+          format: int32
+          required: true
+          minimum: 0
+          default: 0
+        - name: size
+          in: query
+          description: max elements on page (start with 1)
+          type: integer
+          format: int32
+          required: true
+          minimum: 0
+          default: 10
+        - name: sort
+          in: query
+          type: string
+          required: false
+          description: sorting column and direction
+          default: id      
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ManufacturersPaginatedResponse'
+        default:
+          description: error
+          schema:
+            type: string
+                
+    
+  /public/v1/catalogue/manufacturer/{id}:
+    get:
+      operationId: getManufacturer
+      summary: get specific manufacturer
+      description: |
+        Returns manufacturer
+      tags:
+        - catalog
+      parameters:
+        - name: id
+          in: path
+          description: id of the manufacturer to get
+          type: integer
+          format: int32
+          required: true
+          minimum: 0  
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Manufacturer'
+        default:
+          description: error
+          schema:
+            type: string
+                
+    
+  /public/v1/catalogue/manufacturer:
+    post:
+      operationId: addManufacturer
+      summary: add specific manufacturer
+      description: |
+        Add a manufacturer to the catalog
+      tags:
+        - catalog
+      parameters:
+        - in: body
+          name: beer
+          description: manufacturer object
+          required: true
+          schema:
+            $ref: '#/definitions/AddManufacturerRequest'  
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Manufacturer'
+        default:
+          description: error
+          schema:
+            type: string
+            
+                    
+    put:
+      operationId: updateManufacturer
+      summary: update specific manufacturer
+      description: |
+        Update a manufacturer in the catalog
+      tags:
+        - catalog
+      parameters:
+        - in: body
+          name: manufacturer
+          description: Manufacturer object
+          required: true
+          schema:
+            $ref: '#/definitions/Manufacturer'  
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Manufacturer'
+        default:
+          description: error
+          schema:
+            type: string
+    
+    delete:
+      operationId: deleteManufacturer
+      summary: delete specific manufacturer
+      description: |
+        Delete a manufacturer in the catalog
+      tags:
+        - catalog
+      parameters:
+        - in: query
+          name: id
+          description: manufacturer id to delete
+          type: integer
+          format: int32
+          required: true 
+      responses:
+        200:
+          description: OK
+        default:
+          description: error
+          schema:
+            type: string           
+   

@@ -1,10 +1,6 @@
 type: object
-description: Beer data
+description: Add Beer data
 properties:
-  id:
-    type: integer
-    format: int32
-    description: identifier
   name:
     type: string
     description: beer name
@@ -25,7 +21,6 @@ properties:
 # TODO: update example with manufacturer
 example:
   {
-      "id": 1,
       "name": "Heineken",
       "graduation": 5.5,
       "type": "Lager",

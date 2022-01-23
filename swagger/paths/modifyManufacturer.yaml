@@ -1,0 +1,70 @@
+post:
+  operationId: addManufacturer
+  summary: add specific manufacturer
+  description: |
+    Add a manufacturer to the catalog
+  tags:
+    - catalog
+  parameters:
+    - in: body
+      name: beer
+      description: manufacturer object
+      required: true
+      schema:
+        $ref: '#/definitions/AddManufacturerRequest'  
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/Manufacturer'
+    default:
+      description: error
+      schema:
+        type: string
+        
+                
+put:
+  operationId: updateManufacturer
+  summary: update specific manufacturer
+  description: |
+    Update a manufacturer in the catalog
+  tags:
+    - catalog
+  parameters:
+    - in: body
+      name: manufacturer
+      description: Manufacturer object
+      required: true
+      schema:
+        $ref: '#/definitions/Manufacturer'  
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: '#/definitions/Manufacturer'
+    default:
+      description: error
+      schema:
+        type: string
+
+delete:
+  operationId: deleteManufacturer
+  summary: delete specific manufacturer
+  description: |
+    Delete a manufacturer in the catalog
+  tags:
+    - catalog
+  parameters:
+    - in: query
+      name: id
+      description: manufacturer id to delete
+      type: integer
+      format: int32
+      required: true 
+  responses:
+    200:
+      description: OK
+    default:
+      description: error
+      schema:
+        type: string           
