@@ -16,6 +16,9 @@ Beer:
   
 AddBeerRequest:
   $ref: './AddBeerRequest.yaml' 
+  
+UpdateBeerRequest:
+  $ref: './UpdateBeerRequest.yaml' 
 
 ManufacturersPaginatedResponse:
   $ref: './ManufacturersPaginatedResponse.yaml' 
@@ -25,3 +28,7 @@ Manufacturer:
   
 AddManufacturerRequest:
   $ref: './AddManufacturerRequest.yaml' 
+  
+UpdateManufacturerRequest:
+  $ref: './UpdateManufacturerRequest.yaml' 
+  

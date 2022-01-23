@@ -7,7 +7,7 @@ post:
     - catalog
   parameters:
     - in: body
-      name: beer
+      name: manufacturer
       description: manufacturer object
       required: true
       schema:
@@ -36,7 +36,7 @@ put:
       description: Manufacturer object
       required: true
       schema:
-        $ref: '#/definitions/Manufacturer'  
+        $ref: '#/definitions/UpdateManufacturerRequest'  
   responses:
     200:
       description: OK

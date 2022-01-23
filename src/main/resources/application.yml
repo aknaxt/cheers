@@ -1,6 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /cheers
+
 spring:
   application:
     name: Cheers
+
+---
+spring:
+  profiles: mockRepository
+  application:
+    name: Cheers
+  main:
+    allow-bean-definition-overriding: true         
+
+logging:
+  #file: C:\logs\${spring.application.name}.log
+  #fileaudit: C:\logs\${spring.application.name}_Audit.log
+  level:
+    root: DEBUG
+    com.lupulus.cheers: DEBUG
+         
+---
+spring:
+  profiles: default
   main:
     allow-bean-definition-overriding: true         
   h2:
@@ -22,6 +46,11 @@ spring:
   flyway:
    enabled: true
    baseline-on-migrate: true
-   locations: classpath:/db/migration/
-     
-  
+   locations: classpath:/db/migration/  
+
+logging:
+  #file: C:\logs\${spring.application.name}.log
+  #fileaudit: C:\logs\${spring.application.name}_Audit.log
+  level:
+    root: INFO
+    com.lupulus.cheers: DEBUG

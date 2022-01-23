@@ -11,6 +11,7 @@ import com.lupulus.cheers.repository.CatalogRepository;
 import com.lupulus.cheers.service.CatalogService;
 import com.lupulus.cheers.web.controller.request.AddBeerRequest;
 import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
+import com.lupulus.cheers.web.controller.request.UpdateBeerRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +43,7 @@ public class CatalogServiceImplementation implements CatalogService {
 	}
 
 	@Override
-	public Beer updateBeer(Beer beer) {
+	public Beer updateBeer(UpdateBeerRequest beer) {
 		return catalogRepositoy.updateBeer(beer);
 	}
 

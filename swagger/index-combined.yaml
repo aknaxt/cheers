@@ -34,7 +34,7 @@ info:
     name: Cheers
     email: gaizkabilbao@hotmail.com
 host: localhost:8080
-basePath: /ribmob
+basePath: /cheers
 schemes:
   - http
 consumes:
@@ -275,6 +275,42 @@ definitions:
             "country": "Netherlands",
           }
       }
+    
+  UpdateBeerRequest:
+    type: object
+    description: Add Beer data
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: identifier
+      name:
+        type: string
+        description: beer name
+      graduation:
+        type: number
+        format: double
+        description: graduation
+      type:
+        type: string
+        description: type of beer
+      description:
+        type: string
+        description: beer description
+      manufacturerId: 
+        type: integer
+        format: int32
+        description: manufacturer Id
+          
+    example:
+      {
+          "id": 4,
+          "name": "Punk IPA",
+          "graduation": 5.8,
+          "type": "IPA",
+          "description": "description Punk IPA UPDATED",
+          "manufacturerId": 2
+      }
   
   ManufacturersPaginatedResponse:
     type: object
@@ -348,6 +384,35 @@ definitions:
       country:
         type: string
         description: country
+    
+    example:
+      {
+          "name": "Affligem Brewery",
+          "nationality": "Belgium"
+      }
+    
+  UpdateManufacturerRequest:
+    type: object
+    description: Add manufacturer data
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: identifier
+      name:
+        type: string
+        description: Manufacturer name
+      country:
+        type: string
+        description: country
+    
+    example:
+      {
+        "id": 1,
+        "name": "Affligem Brewery UPDATED",
+        "nationality": "Belgium"
+      }
+    
 
 paths:
   
@@ -460,7 +525,7 @@ paths:
           description: beer object
           required: true
           schema:
-            $ref: '#/definitions/Beer'  
+            $ref: '#/definitions/UpdateBeerRequest'   
       responses:
         200:
           description: OK
@@ -572,7 +637,7 @@ paths:
         - catalog
       parameters:
         - in: body
-          name: beer
+          name: manufacturer
           description: manufacturer object
           required: true
           schema:
@@ -601,7 +666,7 @@ paths:
           description: Manufacturer object
           required: true
           schema:
-            $ref: '#/definitions/Manufacturer'  
+            $ref: '#/definitions/UpdateManufacturerRequest'  
       responses:
         200:
           description: OK

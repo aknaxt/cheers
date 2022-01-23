@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddBeerRequest {
+public class UpdateBeerRequest {
 
+	@NotNull
+	int id;
 	@NotEmpty
 	private String name;
 	@DecimalMin("0.0")

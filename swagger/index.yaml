@@ -13,7 +13,7 @@ info:
 #     basePath:
 #       default: ''
 host: localhost:8080
-basePath: /ribmob
+basePath: /cheers
 schemes:
   - http
 consumes:

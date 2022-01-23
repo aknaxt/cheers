@@ -25,6 +25,7 @@ import com.lupulus.cheers.domain.Manufacturer;
 import com.lupulus.cheers.service.CatalogService;
 import com.lupulus.cheers.web.controller.request.AddBeerRequest;
 import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
+import com.lupulus.cheers.web.controller.request.UpdateBeerRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,7 +64,7 @@ public class CatalogController {
 	}	
 	
 	@PutMapping(value = "/beer")
-	public ResponseEntity<Beer> updateBeer(@Valid @RequestBody Beer beer)
+	public ResponseEntity<Beer> updateBeer(@Valid @RequestBody UpdateBeerRequest beer)
 	{
 		log.debug("updating beer ...");
 		Beer updated = catalogService.updateBeer(beer);

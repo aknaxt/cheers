@@ -1,5 +1,6 @@
 package com.lupulus.cheers.repository.implementation.mock;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import com.lupulus.cheers.repository.CatalogRepository;
 import com.lupulus.cheers.repository.profile.ConditionMockRepository;
 import com.lupulus.cheers.web.controller.request.AddBeerRequest;
 import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
+import com.lupulus.cheers.web.controller.request.UpdateBeerRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +38,9 @@ public class MockCatalogRepositoryImpl implements CatalogRepository {
 		PagedListHolder<Beer> pageHolder = new PagedListHolder<Beer>(beers);
 		pageHolder.setPage(pageable.getPageNumber());
 		pageHolder.setPageSize(pageable.getPageSize());
-		Page<Beer> result = new PageImpl<>(pageHolder.getPageList(),pageable,pageHolder.getPageList().size());
+		int offset = pageable.getPageSize()*pageable.getPageNumber();
+		int size = beers.size();
+		Page<Beer> result = new PageImpl<>(offset+1>size?new ArrayList<>():pageHolder.getPageList(),pageable,size);
 		return result;
 	}
 
@@ -48,22 +52,26 @@ public class MockCatalogRepositoryImpl implements CatalogRepository {
 
 	@Override
 	public Beer addBeer(AddBeerRequest beer) {
-		//get highest id
+		Manufacturer manufacturer = getManufacturer(beer.getManufacturerId());
+		//get highest id		
 		int id = beers.stream().mapToInt(b -> b.getId()).max().getAsInt();
 		//create beer and set id+1
 		Beer data = new Beer();
 		BeanUtils.copyProperties(beer, data);
 		data.setId(++id);
+		data.setManufacturer(manufacturer);
 		beers.add(data);
 		return data;
 	}
 
 	@Override
-	public Beer updateBeer(Beer beer) {
+	public Beer updateBeer(UpdateBeerRequest beer) {
+		Manufacturer manufacturer = getManufacturer(beer.getManufacturerId());
 		Beer data = this.getBeer(beer.getId());
 		if(data == null)
 			return null;
 		BeanUtils.copyProperties(beer, data);
+		data.setManufacturer(manufacturer);
 		return data;
 	}
 
@@ -83,7 +91,9 @@ public class MockCatalogRepositoryImpl implements CatalogRepository {
 		PagedListHolder<Manufacturer> pageHolder = new PagedListHolder<Manufacturer>(manufacturers);
 		pageHolder.setPage(pageable.getPageNumber());
 		pageHolder.setPageSize(pageable.getPageSize());
-		Page<Manufacturer> result = new PageImpl<>(pageHolder.getPageList(),pageable,pageHolder.getPageList().size());
+		int offset = pageable.getPageSize()*pageable.getPageNumber();
+		int size = beers.size();
+		Page<Manufacturer> result = new PageImpl<>(offset+1>size?new ArrayList<>():pageHolder.getPageList(),pageable,pageHolder.getPageList().size());
 		return result;
 	}
 

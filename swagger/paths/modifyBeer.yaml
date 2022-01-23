@@ -36,7 +36,7 @@ put:
       description: beer object
       required: true
       schema:
-        $ref: '#/definitions/Beer'  
+        $ref: '#/definitions/UpdateBeerRequest'   
   responses:
     200:
       description: OK

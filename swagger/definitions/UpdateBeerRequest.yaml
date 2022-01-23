@@ -1,0 +1,34 @@
+type: object
+description: Add Beer data
+properties:
+  id:
+    type: integer
+    format: int32
+    description: identifier
+  name:
+    type: string
+    description: beer name
+  graduation:
+    type: number
+    format: double
+    description: graduation
+  type:
+    type: string
+    description: type of beer
+  description:
+    type: string
+    description: beer description
+  manufacturerId: 
+    type: integer
+    format: int32
+    description: manufacturer Id
+      
+example:
+  {
+      "id": 4,
+      "name": "Punk IPA",
+      "graduation": 5.8,
+      "type": "IPA",
+      "description": "description Punk IPA UPDATED",
+      "manufacturerId": 2
+  }

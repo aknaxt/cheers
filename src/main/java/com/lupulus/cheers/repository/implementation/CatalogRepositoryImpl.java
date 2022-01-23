@@ -8,6 +8,7 @@ import com.lupulus.cheers.domain.Manufacturer;
 import com.lupulus.cheers.repository.CatalogRepository;
 import com.lupulus.cheers.web.controller.request.AddBeerRequest;
 import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
+import com.lupulus.cheers.web.controller.request.UpdateBeerRequest;
 
 public class CatalogRepositoryImpl implements CatalogRepository {
 
@@ -30,7 +31,7 @@ public class CatalogRepositoryImpl implements CatalogRepository {
 	}
 
 	@Override
-	public Beer updateBeer(Beer beer) {
+	public Beer updateBeer(UpdateBeerRequest beer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

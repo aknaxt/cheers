@@ -7,6 +7,7 @@ import com.lupulus.cheers.domain.Beer;
 import com.lupulus.cheers.domain.Manufacturer;
 import com.lupulus.cheers.web.controller.request.AddBeerRequest;
 import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
+import com.lupulus.cheers.web.controller.request.UpdateBeerRequest;
 
 public interface CatalogRepository {
 	
@@ -20,7 +21,7 @@ public interface CatalogRepository {
 	
 	Beer addBeer(AddBeerRequest beer);
 	
-	Beer updateBeer(Beer beer);
+	Beer updateBeer(UpdateBeerRequest beer);
 	
 	void deleteBeer(Integer id);
 	
