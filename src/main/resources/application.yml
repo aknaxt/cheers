@@ -53,5 +53,5 @@ logging:
   #file: C:\logs\${spring.application.name}.log
   #fileaudit: C:\logs\${spring.application.name}_Audit.log
   level:
-    root: INFO
+    root: DEBUG
     com.lupulus.cheers: DEBUG

@@ -3,6 +3,7 @@ package com.lupulus.cheers.web.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,6 +11,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +78,42 @@ public class CatalogControllerTests {
 		result.andExpect(jsonPath("$.content",hasSize(expectedSize)));
 		result.andExpect(jsonPath("$.numberOfElements",is(expectedSize)));
 		result.andExpect(jsonPath("$.number",is(expectedNumber)));
-	}	
+	}
+	
+	/**
+	 * Test sorting by id descending
+	 * @throws Exception
+	 */
+	@Test
+	public void getBeers_WithSortingByIdDesc_ThenExpectCorrectSorting() throws Exception {
+		int actualPage = 0;
+		int actualSize = 3;
+		
+		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,desc", actualPage, actualSize))).andDo(print());
+				
+		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
+		
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content[0].id",not(1)));
+	}
+	
+	/**
+	 * Test sorting by id ascending
+	 * @throws Exception
+	 */
+	@Test
+	public void getBeers_WithSortingByIdAsc_ThenExpectCorrectSorting() throws Exception {
+		int actualPage = 0;
+		int actualSize = 3;
+		
+		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc", actualPage, actualSize))).andDo(print());
+				
+		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
+		
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content[0].id",is(1)));
+	}
+
 	
 	/**
 	 * get an empty page setting a big pagination
@@ -272,7 +310,7 @@ public class CatalogControllerTests {
 	 */
 	@Test
 	public void deleteBeer_WithExistingId_ThenExpectBeerDeletedCorrectly() throws Exception {
-		int actual_id = 4;
+		int actual_id = 2;
 		
 		ResultActions result = this.mockMvc.perform(
 				delete(String.format("/public/v1/catalogue/beer?id=%s", actual_id))
@@ -319,7 +357,41 @@ public class CatalogControllerTests {
 		result.andExpect(status().isOk());
 		result.andExpect(jsonPath("$.content",hasSize(expectedNumberOfElements)));
 		result.andExpect(jsonPath("$.numberOfElements",is(expectedNumberOfElements)));
-	}	
+	}
+	
+	/**
+	 * Test sorting by id descending
+	 * @throws Exception
+	 */
+	@Test
+	public void getManufacturers_WithSortingByIdDesc_ThenExpectCorrectSorting() throws Exception {
+		int actualPage = 0;
+		int actualSize = 3;
+		
+		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=id,desc", actualPage, actualSize))).andDo(print());
+				
+		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
+		
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content[0].id",not(1)));
+	}
+	
+	/**
+	 * Test sorting by id ascending
+	 * @throws Exception
+	 */
+	@Test
+	public void getManufacturers_WithSortingByIdAsc_ThenExpectCorrectSorting() throws Exception {
+		int actualPage = 0;
+		int actualSize = 3;
+		
+		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=id,asc", actualPage, actualSize))).andDo(print());
+				
+		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
+		
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content[0].id",is(1)));
+	}
 	
 	/**
 	 * get an existing manufacturers
@@ -470,7 +542,7 @@ public class CatalogControllerTests {
 	 */
 	@Test
 	public void deleteManufacturer_WithExistingId_ThenExpectManufacturerDeletedCorrectly() throws Exception {
-		int actual_id = 3;
+		int actual_id = 2;
 		
 		ResultActions result = this.mockMvc.perform(
 				delete(String.format("/public/v1/catalogue/manufacturer?id=%s", actual_id))

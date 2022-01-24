@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,13 +40,10 @@ public class CatalogController {
 	
 
 	@GetMapping(value = "/beers")
-	public ResponseEntity<Page<Beer>> getBeers(
-			@RequestParam(defaultValue = "0", required = true) Integer page, 
-            @RequestParam(defaultValue = "10", required = true) Integer size,
-            @RequestParam(defaultValue = "id", required = false) String sort )
+	public ResponseEntity<Page<Beer>> getBeers(Pageable pageable)
 	{
 		log.debug("getting beers ...");
-		return new ResponseEntity<>(catalogService.getBeers(PageRequest.of(page, size)), HttpStatus.OK);
+		return new ResponseEntity<>(catalogService.getBeers(pageable), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/beer/{id}")
@@ -84,13 +82,10 @@ public class CatalogController {
 	 */
 	
 	@GetMapping(value = "/manufacturers")
-	public ResponseEntity<Page<Manufacturer>> getManufacturers(
-			@RequestParam(defaultValue = "0", required = true) Integer page, 
-            @RequestParam(defaultValue = "10", required = true) Integer size,
-            @RequestParam(defaultValue = "id", required = false) String sort )
+	public ResponseEntity<Page<Manufacturer>> getManufacturers(Pageable pageable)
 	{
 		log.debug("getting manufacturers ...");
-		return new ResponseEntity<>(catalogService.getManufacturers(PageRequest.of(page, size)), HttpStatus.OK);
+		return new ResponseEntity<>(catalogService.getManufacturers(pageable), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/manufacturer/{id}")

@@ -1,18 +1,11 @@
 package com.lupulus.cheers.repository.implementation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.EntityNotFoundException;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +16,6 @@ import com.lupulus.cheers.repository.CatalogRepository;
 import com.lupulus.cheers.repository.ManufacturerRepository;
 import com.lupulus.cheers.repository.entity.BeerData;
 import com.lupulus.cheers.repository.entity.ManufacturerData;
-import com.lupulus.cheers.repository.implementation.mock.MockCatalogRepositoryImpl;
-import com.lupulus.cheers.repository.profile.ConditionMockRepository;
 import com.lupulus.cheers.repository.profile.ConditionRealRepository;
 import com.lupulus.cheers.web.controller.request.AddBeerRequest;
 import com.lupulus.cheers.web.controller.request.AddManufacturerRequest;
