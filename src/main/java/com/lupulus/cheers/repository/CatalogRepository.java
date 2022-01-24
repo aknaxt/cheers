@@ -15,7 +15,7 @@ public interface CatalogRepository {
 	 * BEERS
 	 */
 
-	Page<Beer> getBeers(Pageable pageable);
+	Page<Beer> getBeers(String search, Pageable pageable);
 	
 	Beer getBeer(Integer id);
 	

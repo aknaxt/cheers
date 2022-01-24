@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import com.lupulus.cheers.domain.Beer;
 import com.lupulus.cheers.domain.Manufacturer;
@@ -35,8 +37,16 @@ public class CatalogRepositoryImpl implements CatalogRepository {
 	BeerRepository beerRepository;
 	
 	@Override
-	public Page<Beer> getBeers(Pageable pageable) {
-		Page<BeerData> beers= beerRepository.findAll(pageable);		
+	public Page<Beer> getBeers(String search, Pageable pageable) {
+		//Page<BeerData> beers= beerRepository.findByNameLike("%a%", pageable);//beerRepository.findAll(pageable);	
+		//Page<BeerData> beers= beerRepository.findByGraduation(new Float("4.7"), pageable);
+		//Page<BeerData> beers= beerRepository.findByManufacturer(manufacturerRepository.getById(2), pageable);
+		//Page<BeerData> beers= beerRepository.findByDescriptionLike("%a%", pageable);
+		Page<BeerData> beers = null;
+		if(ObjectUtils.isEmpty(search))
+			beers = beerRepository.findAll(pageable);
+		else
+			beers= beerRepository.findAllByInputString(search.toLowerCase() ,pageable);
 		return beers.map(n -> new Beer(n.getId(), n.getName(), n.getGraduation(), n.getType(), n.getDescription(), convertManufacturerEntityToDTO(n.getManufacturer())));
 	}
 

@@ -372,7 +372,7 @@ definitions:
         description: Manufacturer name
       country:
         type: string
-        description: country
+        description: nationality
     
   AddManufacturerRequest:
     type: object
@@ -447,7 +447,13 @@ paths:
           type: string
           required: false
           description: sorting column and direction
-          default: id      
+          default: id,asc
+        - name: search 
+          in: query   
+          description: search value field
+          type: string
+          default:
+          required: false     
       responses:
         200:
           description: OK
@@ -588,7 +594,7 @@ paths:
           type: string
           required: false
           description: sorting column and direction
-          default: id      
+          default: id
       responses:
         200:
           description: OK

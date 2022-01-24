@@ -34,7 +34,7 @@ public class MockCatalogRepositoryImpl implements CatalogRepository {
 	@Autowired
 	List<Manufacturer> manufacturers;
 
-	public Page<Beer> getBeers(Pageable pageable) {
+	public Page<Beer> getBeers(String search,Pageable pageable) {
 		PagedListHolder<Beer> pageHolder = new PagedListHolder<Beer>(beers);
 		pageHolder.setPage(pageable.getPageNumber());
 		pageHolder.setPageSize(pageable.getPageSize());

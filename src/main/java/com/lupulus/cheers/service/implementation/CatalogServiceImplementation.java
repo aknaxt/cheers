@@ -26,9 +26,9 @@ public class CatalogServiceImplementation implements CatalogService {
 	 * BEERS
 	 */
 	
-	public Page<Beer> getBeers(Pageable pageable) {
+	public Page<Beer> getBeers(String search, Pageable pageable) {
 
-		return catalogRepositoy.getBeers(pageable);
+		return catalogRepositoy.getBeers(search, pageable);
 
 	}
 

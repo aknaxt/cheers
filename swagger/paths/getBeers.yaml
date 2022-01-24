@@ -27,7 +27,13 @@ get:
       type: string
       required: false
       description: sorting column and direction
-      default: id      
+      default: id,asc
+    - name: search 
+      in: query   
+      description: search value field
+      type: string
+      default:
+      required: false     
   responses:
     200:
       description: OK

@@ -40,10 +40,10 @@ public class CatalogController {
 	
 
 	@GetMapping(value = "/beers")
-	public ResponseEntity<Page<Beer>> getBeers(Pageable pageable)
+	public ResponseEntity<Page<Beer>> getBeers(@RequestParam(required=false,defaultValue="") String search, Pageable pageable)
 	{
 		log.debug("getting beers ...");
-		return new ResponseEntity<>(catalogService.getBeers(pageable), HttpStatus.OK);
+		return new ResponseEntity<>(catalogService.getBeers(search, pageable), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/beer/{id}")

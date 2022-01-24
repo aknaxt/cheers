@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -112,6 +113,44 @@ public class CatalogControllerTests {
 		
 		result.andExpect(status().isOk());
 		result.andExpect(jsonPath("$.content[0].id",is(1)));
+	}
+	
+	/**
+	 * search by Germany manufacturer nationality
+	 * @throws Exception
+	 */
+	@Test
+	public void getBeers_WithManufacturerNationalityGermany_ThenExpectGermanyBeer() throws Exception {
+		int actualPage = 0;
+		int actualSize = 3;
+		String actualSearch = "germa";
+		
+		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc&search=%s", actualPage, actualSize, actualSearch))).andDo(print());
+				
+		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
+		
+
+		String expectedManufacturerNationality = "Germany";
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content[0].manufacturer.nationality",equalTo(expectedManufacturerNationality)));
+	}
+	
+	/**
+	 * search by unexisting manufacturer nationality
+	 * @throws Exception
+	 */
+	@Test
+	public void getBeers_WithUnexistingManufacturerNationality_ThenExpectNoBeer() throws Exception {
+		int actualPage = 0;
+		int actualSize = 3;
+		String actualSearch = "asdasdasdf";
+		
+		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc&search=%s", actualPage, actualSize, actualSearch))).andDo(print());
+				
+		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
+		
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content",hasSize(0)));
 	}
 
 	
