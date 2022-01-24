@@ -92,7 +92,7 @@ public class MockCatalogRepositoryImpl implements CatalogRepository {
 		pageHolder.setPage(pageable.getPageNumber());
 		pageHolder.setPageSize(pageable.getPageSize());
 		int offset = pageable.getPageSize()*pageable.getPageNumber();
-		int size = beers.size();
+		int size = manufacturers.size();
 		Page<Manufacturer> result = new PageImpl<>(offset+1>size?new ArrayList<>():pageHolder.getPageList(),pageable,pageHolder.getPageList().size());
 		return result;
 	}

@@ -10,4 +10,4 @@ properties:
     description: Manufacturer name
   country:
     type: string
-    description: country
+    description: nationality
