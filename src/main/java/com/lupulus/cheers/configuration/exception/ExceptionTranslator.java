@@ -4,6 +4,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -21,6 +22,14 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
 		log.error("Unexpected Exception", ex);
 
 		return new ResponseEntity<String>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<String> processRuntimeException(AccessDeniedException ex) {
+		String message = "Sorry, don't have permissions for this operation";
+		log.error("Access denied Exception", ex);
+
+		return new ResponseEntity<String>(message, HttpStatus.UNAUTHORIZED);
 	}
 
 }

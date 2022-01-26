@@ -74,7 +74,8 @@ public class CatalogRepositoryImpl implements CatalogRepository {
 	@Override
 	public Beer addBeer(AddBeerRequest beer) {
 		BeerData entity = new BeerData();
-		BeanUtils.copyProperties(beer, entity);		
+		BeanUtils.copyProperties(beer, entity);
+		entity.setManufacturer(manufacturerRepository.getOne(beer.getManufacturerId()));
 		BeerData data = beerRepository.save(entity);
 		return new Beer(data.getId(), data.getName(), data.getGraduation(), data.getType(), data.getDescription(), convertManufacturerEntityToDTO(manufacturerRepository.getOne(beer.getManufacturerId())));
 	}
@@ -85,6 +86,7 @@ public class CatalogRepositoryImpl implements CatalogRepository {
 		if(!beerRepository.existsById(beer.getId()))
 			return null;
 		BeanUtils.copyProperties(beer, entity);
+		entity.setManufacturer(manufacturerRepository.getOne(beer.getManufacturerId()));
 		BeerData data = beerRepository.save(entity);
 		return new Beer(data.getId(), data.getName(), data.getGraduation(), data.getType(), data.getDescription(), convertManufacturerEntityToDTO(manufacturerRepository.getOne(beer.getManufacturerId())));
 	}

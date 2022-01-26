@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,6 +43,9 @@ public class CatalogControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	private static String adminUser = "admin";
+	private static String heinekenUser = "heineken";
+	
 	@Autowired
 	CatalogController catalogController;
 	
@@ -66,12 +70,39 @@ public class CatalogControllerTests {
 		assertThat(catalogController).isNotNull();
 	}	
 	
+	/**
+	 * get beers paged and check page size
+	 * @throws Exception
+	 */
 	@Test
 	public void getBeers_WithPaging0andSize2_ThenExpectCorrectPageSize() throws Exception {
 		int actualPage = 0;
 		int actualSize = 2;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
+		
+		int expectedNumber = 0;
+		int expectedSize = 2;
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.content",hasSize(expectedSize)));
+		result.andExpect(jsonPath("$.numberOfElements",is(expectedSize)));
+		result.andExpect(jsonPath("$.number",is(expectedNumber)));
+	}
+	
+	/**
+	 * get beers paged with anonymous security
+	 * @throws Exception
+	 */
+	@Test
+	public void getBeers_WithAnonymousSecurity_ThenExpectCorrectPageSize() throws Exception {
+		int actualPage = 0;
+		int actualSize = 2;
+		
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=", actualPage, actualSize))
+		).andDo(print());
 		
 		int expectedNumber = 0;
 		int expectedSize = 2;
@@ -90,7 +121,9 @@ public class CatalogControllerTests {
 		int actualPage = 0;
 		int actualSize = 3;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,desc", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,desc", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
 		
@@ -107,7 +140,9 @@ public class CatalogControllerTests {
 		int actualPage = 0;
 		int actualSize = 3;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
 		
@@ -125,7 +160,9 @@ public class CatalogControllerTests {
 		int actualSize = 3;
 		String actualSearch = "germa";
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc&search=%s", actualPage, actualSize, actualSearch))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc&search=%s", actualPage, actualSize, actualSearch)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
 		
@@ -145,7 +182,9 @@ public class CatalogControllerTests {
 		int actualSize = 3;
 		String actualSearch = "asdasdasdf";
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc&search=%s", actualPage, actualSize, actualSearch))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=id,asc&search=%s", actualPage, actualSize, actualSearch)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
 		
@@ -163,7 +202,9 @@ public class CatalogControllerTests {
 		int actualPage = 100;
 		int actualSize = 2;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beers?page=%s&size=%s&sort=", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 		
 		int expectedNumberOfElements = 0;
 		result.andExpect(status().isOk());
@@ -179,7 +220,26 @@ public class CatalogControllerTests {
 	public void getBeer_WithExistingId_ThenExpectCorrectElement() throws Exception {
 		int actualid = 1;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beer/%s", actualid))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beer/%s", actualid)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
+		
+		int expectedId = 1;
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.id", is(expectedId)));
+	}
+	
+	/**
+	 * get an existing beer with anonymous 
+	 * @throws Exception
+	 */
+	@Test
+	public void getBeer_WithExistingIdAndAnonymous_ThenExpectCorrectElement() throws Exception {
+		int actualid = 1;
+		
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beer/%s", actualid))
+		).andDo(print());
 		
 		int expectedId = 1;
 		result.andExpect(status().isOk());
@@ -195,7 +255,9 @@ public class CatalogControllerTests {
 	public void getBeer_WithUnexistingId_ThenExpect404() throws Exception {
 		int actualid = 100;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/beer/%s", actualid))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/beer/%s", actualid)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		result.andExpect(status().isNotFound());
 	}	
@@ -214,7 +276,7 @@ public class CatalogControllerTests {
 	    AddBeerRequest beer = new AddBeerRequest(actual_name, actual_graduation, actual_type, actual_description,actual_manufacturer_id);
 	    
 		ResultActions result = this.mockMvc.perform(
-				post("/public/v1/catalogue/beer")
+				post("/public/v1/catalogue/beer").with(httpBasic(adminUser,adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(beer))
 		).andDo(print());
@@ -234,6 +296,54 @@ public class CatalogControllerTests {
 	}	
 	
 	/**
+	 * try to add the beer of another manufacturer
+	 * @throws Exception
+	 */
+	@Test
+	public void addBeer_WithAnotherManufacturer_ThenExpectAccessDenied() throws Exception {
+		String actual_name  = "Punk IPA";
+		Float actual_graduation = new Float(5.8);
+	    String actual_type = "IPA";
+	    String actual_description = "description Punk IPA";
+	    int actual_manufacturer_id = 2;    
+	    AddBeerRequest beer = new AddBeerRequest(actual_name, actual_graduation, actual_type, actual_description,actual_manufacturer_id);
+	    
+		ResultActions result = this.mockMvc.perform(
+				post("/public/v1/catalogue/beer").with(httpBasic(heinekenUser,heinekenUser))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(serialize(beer))
+		).andDo(print());
+			
+		
+		result.andExpect(status().is4xxClientError());
+	
+	}	
+	
+	/**
+	 * try to add a beer with anonymous and expect access denied
+	 * @throws Exception
+	 */
+	@Test
+	public void addBeer_WithAnonymous_ThenExpectAccessDenied() throws Exception {
+		String actual_name  = "Punk IPA";
+		Float actual_graduation = new Float(5.8);
+	    String actual_type = "IPA";
+	    String actual_description = "description Punk IPA";
+	    int actual_manufacturer_id = 2;    
+	    AddBeerRequest beer = new AddBeerRequest(actual_name, actual_graduation, actual_type, actual_description,actual_manufacturer_id);
+	    
+		ResultActions result = this.mockMvc.perform(
+				post("/public/v1/catalogue/beer")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(serialize(beer))
+		).andDo(print());
+			
+		
+		result.andExpect(status().is4xxClientError());
+	
+	}
+	
+	/**
 	 * add a beer with empty name
 	 * @throws Exception
 	 */
@@ -247,7 +357,7 @@ public class CatalogControllerTests {
 	    AddBeerRequest beer = new AddBeerRequest(actual_name, actual_graduation, actual_type, actual_description,actual_manufacturer_id);
 	    
 		ResultActions result = this.mockMvc.perform(
-				post("/public/v1/catalogue/beer")
+				post("/public/v1/catalogue/beer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(beer))
 		).andDo(print());
@@ -272,7 +382,7 @@ public class CatalogControllerTests {
 	    UpdateBeerRequest beer = new UpdateBeerRequest(actual_id, actual_name, actual_graduation, actual_type, actual_description, actual_manufacturer_id);
 	    
 		ResultActions result = this.mockMvc.perform(
-				put("/public/v1/catalogue/beer")
+				put("/public/v1/catalogue/beer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(beer))
 		).andDo(print());
@@ -294,6 +404,56 @@ public class CatalogControllerTests {
 	}
 	
 	/**
+	 * modify a beer with another manufacturer and expect access denied
+	 * @throws Exception
+	 */
+	@Test
+	public void modifyBeer_WithCorrectValuesAnotherManufacturer_ThenExpectAccessDenied() throws Exception {
+		int actual_id = 1;
+		String actual_name  = "Punk IPA MODIFIED";
+		Float actual_graduation = new Float(5.6);
+	    String actual_type = "IPA MODIFIED";
+	    String actual_description = "description Punk IPA MODIFIED";
+	    int actual_manufacturer_id = 2;	    
+	    UpdateBeerRequest beer = new UpdateBeerRequest(actual_id, actual_name, actual_graduation, actual_type, actual_description, actual_manufacturer_id);
+	    
+		ResultActions result = this.mockMvc.perform(
+				put("/public/v1/catalogue/beer").with(httpBasic(heinekenUser, heinekenUser))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(serialize(beer))
+		).andDo(print());
+				
+		
+		result.andExpect(status().is4xxClientError());
+	
+	}
+	
+	/**
+	 * modify a beer with anonymous and expect access denied
+	 * @throws Exception
+	 */
+	@Test
+	public void modifyBeer_WithAnonymous_ThenExpectAccessDenied() throws Exception {
+		int actual_id = 1;
+		String actual_name  = "Punk IPA MODIFIED";
+		Float actual_graduation = new Float(5.6);
+	    String actual_type = "IPA MODIFIED";
+	    String actual_description = "description Punk IPA MODIFIED";
+	    int actual_manufacturer_id = 1;	    
+	    UpdateBeerRequest beer = new UpdateBeerRequest(actual_id, actual_name, actual_graduation, actual_type, actual_description, actual_manufacturer_id);
+	    
+		ResultActions result = this.mockMvc.perform(
+				put("/public/v1/catalogue/beer")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(serialize(beer))
+		).andDo(print());
+				
+		
+		result.andExpect(status().is4xxClientError());
+	
+	}
+	
+	/**
 	 * modify a beer with empty name and expect 400
 	 * @throws Exception
 	 */
@@ -308,7 +468,7 @@ public class CatalogControllerTests {
 	    UpdateBeerRequest beer = new UpdateBeerRequest(actual_id, actual_name, actual_graduation, actual_type, actual_description, actual_manufacturer_id);
 	    
 		ResultActions result = this.mockMvc.perform(
-				put("/public/v1/catalogue/beer")
+				put("/public/v1/catalogue/beer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(beer))
 		).andDo(print());
@@ -332,7 +492,7 @@ public class CatalogControllerTests {
 	    UpdateBeerRequest beer = new UpdateBeerRequest(actual_id, actual_name, actual_graduation, actual_type, actual_description, actual_manufacturer_id);
 	    
 		ResultActions result = this.mockMvc.perform(
-				put("/public/v1/catalogue/beer")
+				put("/public/v1/catalogue/beer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(beer))
 		).andDo(print());
@@ -352,11 +512,42 @@ public class CatalogControllerTests {
 		int actual_id = 2;
 		
 		ResultActions result = this.mockMvc.perform(
-				delete(String.format("/public/v1/catalogue/beer?id=%s", actual_id))
+				delete(String.format("/public/v1/catalogue/beer?id=%s", actual_id)).with(httpBasic(adminUser, adminUser))
 		).andDo(print());
 		
 		result.andExpect(status().isOk());	
 	}
+	
+	/**
+	 * delete a existing beer with another manufcaturer and expect access denied 
+	 * @throws Exception
+	 */
+	@Test
+	public void deleteBeer_WithAnotherManufacturer_ThenExpectAccessDenied() throws Exception {
+		int actual_id = 2;
+		
+		ResultActions result = this.mockMvc.perform(
+				delete(String.format("/public/v1/catalogue/beer?id=%s", actual_id)).with(httpBasic(heinekenUser, heinekenUser))
+		).andDo(print());
+		
+		result.andExpect(status().is4xxClientError());	
+	}
+	
+	/**
+	 * delete a beeer with anonymous and expect access denied 
+	 * @throws Exception
+	 */
+	@Test
+	public void deleteBeer_WithAnonymous_ThenExpectAccessDenied() throws Exception {
+		int actual_id = 2;
+		
+		ResultActions result = this.mockMvc.perform(
+				delete(String.format("/public/v1/catalogue/beer?id=%s", actual_id))
+		).andDo(print());
+		
+		result.andExpect(status().is4xxClientError());	
+	}	
+	
 	
 
 	/*
@@ -371,7 +562,9 @@ public class CatalogControllerTests {
 		int actualPage = 0;
 		int actualSize = 2;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 		
 		int expectedNumber = 0;
 		int expectedSize = 2;
@@ -390,7 +583,9 @@ public class CatalogControllerTests {
 		int actualPage = 100;
 		int actualSize = 2;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 		
 		int expectedNumberOfElements = 0;
 		result.andExpect(status().isOk());
@@ -407,7 +602,9 @@ public class CatalogControllerTests {
 		int actualPage = 0;
 		int actualSize = 3;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=id,desc", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=id,desc", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
 		
@@ -424,7 +621,9 @@ public class CatalogControllerTests {
 		int actualPage = 0;
 		int actualSize = 3;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=id,asc", actualPage, actualSize))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/manufacturers?page=%s&size=%s&sort=id,asc", actualPage, actualSize)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		log.debug("sorting test: " + result.andReturn().getResponse().getContentAsString());		
 		
@@ -440,7 +639,9 @@ public class CatalogControllerTests {
 	public void getManufacturer_WithExistingId_ThenExpectCorrectElement() throws Exception {
 		int actualid = 1;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturer/%s", actualid))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/manufacturer/%s", actualid)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 		
 		int expectedId = 1;
 		result.andExpect(status().isOk());
@@ -456,7 +657,9 @@ public class CatalogControllerTests {
 	public void getManufacturer_WithUnexistingId_ThenExpect404() throws Exception {
 		int actualid = 100;
 		
-		ResultActions result = this.mockMvc.perform(get(String.format("/public/v1/catalogue/manufacturer/%s", actualid))).andDo(print());
+		ResultActions result = this.mockMvc.perform(
+				get(String.format("/public/v1/catalogue/manufacturer/%s", actualid)).with(httpBasic(adminUser, adminUser))
+		).andDo(print());
 				
 		result.andExpect(status().isNotFound());
 	}	
@@ -472,7 +675,7 @@ public class CatalogControllerTests {
 	    AddManufacturerRequest manufacturer = new AddManufacturerRequest(actual_name, actual_nationality);
 	    
 		ResultActions result = this.mockMvc.perform(
-				post("/public/v1/catalogue/manufacturer")
+				post("/public/v1/catalogue/manufacturer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(manufacturer))
 		).andDo(print());
@@ -496,7 +699,7 @@ public class CatalogControllerTests {
 	    AddManufacturerRequest manufacturer = new AddManufacturerRequest(actual_name, actual_nationality);
 	    
 		ResultActions result = this.mockMvc.perform(
-				post("/public/v1/catalogue/manufacturer")
+				post("/public/v1/catalogue/manufacturer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(manufacturer))
 		).andDo(print());
@@ -517,7 +720,7 @@ public class CatalogControllerTests {
 	    UpdateManufacturerRequest manufacturer = new UpdateManufacturerRequest(actual_id, actual_name, actual_nationality);
 	    
 		ResultActions result = this.mockMvc.perform(
-				put("/public/v1/catalogue/manufacturer")
+				put("/public/v1/catalogue/manufacturer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(manufacturer))
 		).andDo(print());
@@ -544,7 +747,7 @@ public class CatalogControllerTests {
 	    UpdateManufacturerRequest manufacturer = new UpdateManufacturerRequest(actual_id, actual_name, actual_nationality);
 	    
 		ResultActions result = this.mockMvc.perform(
-				put("/public/v1/catalogue/manufacturer")
+				put("/public/v1/catalogue/manufacturer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(manufacturer))
 		).andDo(print());				
@@ -564,7 +767,7 @@ public class CatalogControllerTests {
 	    UpdateManufacturerRequest manufacturer = new UpdateManufacturerRequest(actual_id, actual_name, actual_nationality);
 	    
 		ResultActions result = this.mockMvc.perform(
-				put("/public/v1/catalogue/manufacturer")
+				put("/public/v1/catalogue/manufacturer").with(httpBasic(adminUser, adminUser))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(serialize(manufacturer))
 		).andDo(print());
@@ -584,7 +787,7 @@ public class CatalogControllerTests {
 		int actual_id = 2;
 		
 		ResultActions result = this.mockMvc.perform(
-				delete(String.format("/public/v1/catalogue/manufacturer?id=%s", actual_id))
+				delete(String.format("/public/v1/catalogue/manufacturer?id=%s", actual_id)).with(httpBasic(adminUser, adminUser))
 		).andDo(print());
 		
 		result.andExpect(status().isOk());	

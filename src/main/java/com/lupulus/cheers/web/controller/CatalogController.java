@@ -5,12 +5,11 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,13 +37,14 @@ public class CatalogController {
 	@Autowired
 	CatalogService catalogService;
 	
-
+	
 	@GetMapping(value = "/beers")
 	public ResponseEntity<Page<Beer>> getBeers(@RequestParam(required=false,defaultValue="") String search, Pageable pageable)
 	{
 		log.debug("getting beers ...");
 		return new ResponseEntity<>(catalogService.getBeers(search, pageable), HttpStatus.OK);
 	}
+	
 	
 	@GetMapping(value = "/beer/{id}")
 	public ResponseEntity<Beer> getBeer(@PathVariable("id") Integer id)
@@ -54,6 +54,7 @@ public class CatalogController {
 		return new ResponseEntity<>(beer, beer==null?HttpStatus.NOT_FOUND:HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasPermission(#beer.manufacturerId,'AddBeerRequest', 'MANUFACTURER')")
 	@PostMapping(value = "/beer")
 	public ResponseEntity<Beer> addBeer(@Valid @RequestBody AddBeerRequest beer)
 	{
@@ -61,6 +62,7 @@ public class CatalogController {
 		return new ResponseEntity<>(catalogService.addBeer(beer), HttpStatus.OK);
 	}	
 	
+	@PreAuthorize("hasPermission(#beer.manufacturerId,'UpdateBeerRequest', 'MANUFACTURER')")
 	@PutMapping(value = "/beer")
 	public ResponseEntity<Beer> updateBeer(@Valid @RequestBody UpdateBeerRequest beer)
 	{
@@ -69,6 +71,7 @@ public class CatalogController {
 		return new ResponseEntity<>(updated, updated==null?HttpStatus.NOT_FOUND:HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasPermission(#id,'DeleteBeerRequest', 'MANUFACTURER')")
 	@DeleteMapping(value = "/beer")
 	public ResponseEntity<Void> deleteBeer(@NotNull @Valid @RequestParam(value = "id", required = true) Integer id)
 	{
@@ -81,6 +84,7 @@ public class CatalogController {
 	 * MANUFACTURERS
 	 */
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value = "/manufacturers")
 	public ResponseEntity<Page<Manufacturer>> getManufacturers(Pageable pageable)
 	{
@@ -88,6 +92,7 @@ public class CatalogController {
 		return new ResponseEntity<>(catalogService.getManufacturers(pageable), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value = "/manufacturer/{id}")
 	public ResponseEntity<Manufacturer> getManufacturer(@PathVariable("id") Integer id)
 	{
@@ -96,6 +101,7 @@ public class CatalogController {
 		return new ResponseEntity<>(manufacturer, manufacturer==null?HttpStatus.NOT_FOUND:HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping(value = "/manufacturer")
 	public ResponseEntity<Manufacturer> addManufacturer(@Valid @RequestBody AddManufacturerRequest manufacturer)
 	{
@@ -103,6 +109,7 @@ public class CatalogController {
 		return new ResponseEntity<>(catalogService.addManufacturer(manufacturer), HttpStatus.OK);
 	}	
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping(value = "/manufacturer")
 	public ResponseEntity<Manufacturer> updateManufacturer(@Valid @RequestBody Manufacturer manufacturer)
 	{
@@ -111,6 +118,7 @@ public class CatalogController {
 		return new ResponseEntity<>(updated, updated==null?HttpStatus.NOT_FOUND:HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@DeleteMapping(value = "/manufacturer")
 	public ResponseEntity<Void> deleteManufacturer(@NotNull @Valid @RequestParam(value = "id", required = true) Integer id)
 	{
