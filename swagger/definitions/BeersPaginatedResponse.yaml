@@ -48,40 +48,70 @@ example:
               "id": 1,
               "name": "Heineken",
               "graduation": 5.5,
-              "manufacturer": "Heineken",
-              "type": "Lager",
-              "description": "description Heineken"
+              "type": "Pale Lager",
+              "description": "description Heineken",
+              "manufacturer": {
+                  "id": 1,
+                  "name": "Heineken",
+                  "nationality": "Netherlands"
+              }
           }, {
               "id": 2,
-              "name": "Estrella",
+              "name": "Estrella Damm",
               "graduation": 4.7,
-              "manufacturer": "Damm",
               "type": "Lager",
-              "description": "description Estrella"
+              "description": "description Estrella",
+              "manufacturer": {
+                  "id": 2,
+                  "name": "Damm Brewery",
+                  "nationality": "Spain"
+              }
+          }, {
+              "id": 3,
+              "name": "Guinness",
+              "graduation": 8.9,
+              "type": "Stout",
+              "description": "Guinness Brewery",
+              "manufacturer": {
+                  "id": 3,
+                  "name": "Guinness Brewery",
+                  "nationality": "Ireland"
+              }
+          }, {
+              "id": 4,
+              "name": "Paulaner",
+              "graduation": 6.1,
+              "type": "Witbier",
+              "description": "description Paulaner",
+              "manufacturer": {
+                  "id": 4,
+                  "name": "Paulaner brewery",
+                  "nationality": "Germany"
+              }
           }
       ],
       "pageable": {
           "sort": {
-              "sorted": false,
-              "empty": true,
-              "unsorted": true
+              "sorted": true,
+              "empty": false,
+              "unsorted": false
           },
-          "pageSize": 2,
+          "pageSize": 10,
           "pageNumber": 0,
           "offset": 0,
           "paged": true,
           "unpaged": false
       },
       "totalPages": 1,
-      "totalElements": 2,
+      "totalElements": 4,
       "last": true,
       "number": 0,
-      "size": 2,
-      "numberOfElements": 2,
+      "size": 10,
+      "numberOfElements": 4,
       "sort": {
-          "sorted": false,
-          "empty": true,
-          "unsorted": true
+          "sorted": true,
+          "empty": false,
+          "unsorted": false
       },
       "first": true,
       "empty": false

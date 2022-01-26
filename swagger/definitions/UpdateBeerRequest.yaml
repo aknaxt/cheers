@@ -25,7 +25,7 @@ properties:
       
 example:
   {
-      "id": 4,
+      "id": 5,
       "name": "Punk IPA",
       "graduation": 5.8,
       "type": "IPA",

@@ -21,19 +21,11 @@ consumes:
 produces:
   - application/json; charset=UTF-8
 
-#securityDefinitions:
-#  oauth2:
-#    type: TBD
-#    flow: TBD
-#    authorizationUrl: TBD
-#    tokenUrl: TBD
-#    scopes:
-#      write: do modifications
-#      read: read information
+securityDefinitions:
+  BasicAuth:
+    type: basic
     
 tags:
-  - name: security
-    description: security endpoints
   - name: catalog
     description: Beer catalog endpoints
     

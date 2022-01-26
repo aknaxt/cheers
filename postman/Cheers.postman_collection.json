@@ -1,0 +1,321 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Cheers",
+		"_postman_id": "ed060343-edf5-2552-a9eb-521befa607cc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "beers",
+			"description": "",
+			"item": [
+				{
+					"name": "getBeers",
+					"request": {
+						"url": {
+							"raw": "{{baseurl}}/public/v1/catalogue/beers?page=0&size=20&sort=id,desc&search=sp",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"public",
+								"v1",
+								"catalogue",
+								"beers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "sort",
+									"value": "id,desc",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "search",
+									"value": "sp",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": "admin\n",
+								"disabled": true
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getBeer",
+					"request": {
+						"url": "{{baseurl}}/public/v1/catalogue/beer/3",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": "admin",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic aGVpbmVrZW46aGVpbmVrZW4=",
+								"description": "heineken"
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "addBeer",
+					"request": {
+						"url": "{{baseurl}}/public/v1/catalogue/beer",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": "admin",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic aGVpbmVrZW46aGVpbmVrZW4=",
+								"description": "heineken"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Punk IPA\",\n    \"graduation\": 5.8,\n    \"type\": \"IPA\",\n    \"description\": \"description Punk IPA\",\n    \"manufacturerId\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "updateBeer",
+					"request": {
+						"url": "{{baseurl}}/public/v1/catalogue/beer",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 5,\n    \"name\": \"Punk IPA\",\n    \"graduation\": 5.8,\n    \"type\": \"IPA\",\n    \"description\": \"description Punk IPA UPDATED\",\n    \"manufacturerId\": 2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBeer",
+					"request": {
+						"url": {
+							"raw": "{{baseurl}}/public/v1/catalogue/beer?id=1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"public",
+								"v1",
+								"catalogue",
+								"beer"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic aGVpbmVrZW46aGVpbmVrZW4=",
+								"description": "heineken"
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "manufacturers",
+			"description": "",
+			"item": [
+				{
+					"name": "getManufacturers",
+					"request": {
+						"url": {
+							"raw": "{{baseurl}}/public/v1/catalogue/manufacturers?page=0&size=20&sort=nationality,desc",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"public",
+								"v1",
+								"catalogue",
+								"manufacturers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "sort",
+									"value": "nationality,desc",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getManufacturer",
+					"request": {
+						"url": "{{baseurl}}/public/v1/catalogue/manufacturer/100",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "addManufacturer",
+					"request": {
+						"url": "{{baseurl}}/public/v1/catalogue/manufacturer",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"name\": \"Affligem Brewery\",\n    \"nationality\": \"Belgium\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "updateManufacturer",
+					"request": {
+						"url": "{{baseurl}}/public/v1/catalogue/manufacturer",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 1,\n    \"name\": \"Affligem Brewery UPDATED\",\n    \"nationality\": \"Belgium\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "deleteManufacturer",
+					"request": {
+						"url": {
+							"raw": "{{baseurl}}/public/v1/catalogue/manufacturer?id=1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"public",
+								"v1",
+								"catalogue",
+								"manufacturer"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

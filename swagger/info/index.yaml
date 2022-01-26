@@ -9,7 +9,6 @@ description: |
 
     TAGS         | Brief Description
     ------------ | -----------------------------
-    security     | security endpoints
     catalog       | beer catalog endpoints
 
    

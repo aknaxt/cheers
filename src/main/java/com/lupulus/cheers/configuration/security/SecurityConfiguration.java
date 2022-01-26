@@ -26,7 +26,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring().antMatchers("/public/v1/catalogue/beers").antMatchers("/public/v1/catalogue/beer/*");
+	    web.ignoring().antMatchers("/public/v1/catalogue/beers").antMatchers("/public/v1/catalogue/beer/*")
+	    .antMatchers("/static/swagger-ui.html").antMatchers("/static/index-combined.yaml")
+	    .antMatchers("/h2-console/**");
 	}
 	
 	

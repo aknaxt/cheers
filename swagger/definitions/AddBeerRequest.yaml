@@ -18,16 +18,12 @@ properties:
     type: object
     $ref: '#/definitions/Manufacturer'
       
-# TODO: update example with manufacturer
+
 example:
   {
-      "name": "Heineken",
-      "graduation": 5.5,
-      "type": "Lager",
-      "description": "description Heineken",
-      "manufacturer": {
-        "id": 1,
-        "name": "Heineken Co",
-        "country": "Netherlands",
-      }
+      "name": "Punk IPA",
+      "graduation": 5.8,
+      "type": "IPA",
+      "description": "description Punk IPA",
+      "manufacturerId": 1
   }

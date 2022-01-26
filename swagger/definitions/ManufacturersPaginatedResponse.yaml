@@ -43,4 +43,58 @@ properties:
     type: boolean
     description: whether the current Slice is the last one.
 
-#TODO: add example
+example:
+  {
+      "content": [
+          {
+              "id": 2,
+              "name": "Damm Brewery",
+              "nationality": "Spain"
+          },
+          {
+              "id": 5,
+              "name": "Brewdog",
+              "nationality": "Scotland"
+          },
+          {
+              "id": 1,
+              "name": "Heineken",
+              "nationality": "Netherlands"
+          },
+          {
+              "id": 3,
+              "name": "Guinness Brewery",
+              "nationality": "Ireland"
+          },
+          {
+              "id": 4,
+              "name": "Paulaner brewery",
+              "nationality": "Germany"
+          }
+      ],
+      "pageable": {
+          "sort": {
+              "sorted": true,
+              "empty": false,
+              "unsorted": false
+          },
+          "pageSize": 20,
+          "pageNumber": 0,
+          "offset": 0,
+          "paged": true,
+          "unpaged": false
+      },
+      "totalPages": 1,
+      "totalElements": 5,
+      "last": true,
+      "number": 0,
+      "size": 20,
+      "numberOfElements": 5,
+      "sort": {
+          "sorted": true,
+          "empty": false,
+          "unsorted": false
+      },
+      "first": true,
+      "empty": false
+  }
