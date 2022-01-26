@@ -75,7 +75,7 @@ API should support sorting.</th>
   </tr>
   <tr>
     <th>Bonus Steps: Add pagination to the collection endpoints</th>
-    <td></td>
+    <td>✔</td>
   </tr>
   <tr>
     <th>Bonus Steps: Include the beer search functionality to the API: users should be able to search by any 
